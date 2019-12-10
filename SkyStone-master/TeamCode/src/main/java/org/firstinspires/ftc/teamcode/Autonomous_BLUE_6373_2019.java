@@ -22,7 +22,7 @@ public class Autonomous_BLUE_6373_2019 extends LinearOpMode {
     DcMotor FR;
     DcMotor BL;
     DcMotor BR;
-    I2cDevice rightDistance;
+    //I2cDevice rightDistance;
     byte[] range1Cache;
     I2cAddr RANGE1ADDRESS = new I2cAddr(0x14); //Default I2C address for MR Range (7-bit)
     public static final int RANGE1_REG_START = 0x04; //Register to start reading
@@ -50,8 +50,7 @@ public class Autonomous_BLUE_6373_2019 extends LinearOpMode {
 
         FR = hardwareMap.dcMotor.get("FR");
         BR = hardwareMap.dcMotor.get("BR");
-        rightDistance = hardwareMap.i2cDevice.get("MR_RANGE");
-        //RANGE1 = hardwareMap.i2cDevice.get("range");
+        RANGE1 = hardwareMap.i2cDevice.get("MR_RANGE");
         RANGE1Reader = new I2cDeviceSynchImpl(RANGE1, RANGE1ADDRESS, false);
         RANGE1Reader.engage();
         //gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyroSens"); //THIS IS AN I2C DEVICE. Find a Gyro Sensor on the robot named gyroSens. gyroSens is the name that appears in the phones configuration
@@ -67,24 +66,25 @@ public class Autonomous_BLUE_6373_2019 extends LinearOpMode {
         //telemetry.addData("Main Started", ":)");
         //telemetry.update();
 
-        double[] dirs = HolonomicDrive.RoboMoveXY(1.0, 0);
+        while(true) {
+            double[] dirs = HolonomicDrive.RoboMoveXY(1.0, 0);
 
 
+            while (range1Cache[0] > 0 && range1Cache[0] < dist1) //run motors for 1 second
+            {
 
-        while (range1Cache[0] > 0 && range1Cache[0] < dist1) //run motors for 1 second
-        {
 
+                FL.setPower(dirs[0]);
+                FR.setPower(dirs[1]);
+                BL.setPower(dirs[2]);
+                BR.setPower(dirs[3]);
 
-            FL.setPower(dirs[0]);
-            FR.setPower(dirs[1]);
-            BL.setPower(dirs[2]);
-            BR.setPower(dirs[3]);
+                range1Cache = RANGE1Reader.read(RANGE1_REG_START, RANGE1_READ_LENGTH);
+            }
 
-            range1Cache = RANGE1Reader.read(RANGE1_REG_START, RANGE1_READ_LENGTH);
+            FL.setPower(0.0);
+            FR.setPower(0.0);
         }
-
-        FL.setPower(0.0);
-        FR.setPower(0.0);
 /*
         long startTime = new Date().getTime();
         dirs = HolonomicDrive.RoboMoveXY(0, 1);
