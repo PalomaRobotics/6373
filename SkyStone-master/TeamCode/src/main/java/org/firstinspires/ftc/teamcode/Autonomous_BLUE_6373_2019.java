@@ -67,18 +67,17 @@ public class Autonomous_BLUE_6373_2019 extends LinearOpMode {
         //telemetry.update();
 
         while(true) {
-            double[] dirs = HolonomicDrive.RoboMoveXY(1.0, 0);
 
+            range1Cache = RANGE1Reader.read(RANGE1_REG_START, RANGE1_READ_LENGTH);
 
-            while (range1Cache[0] > 0 && range1Cache[0] < dist1) //run motors for 1 second
-            {
+            while(range1Cache[0] > 50) {
+             //HolonomicDrive
 
+                //telemetry.addData("Ultra Sonic", range1Cache[0] & 0xFF);
+                //telemetry.addData("ODS", range1Cache[1] & 0xFF);
 
-                FL.setPower(dirs[0]);
-                FR.setPower(dirs[1]);
-                BL.setPower(dirs[2]);
-                BR.setPower(dirs[3]);
-
+                //FL.setPower(0.5);
+                //FR.setPower(0.5);
                 range1Cache = RANGE1Reader.read(RANGE1_REG_START, RANGE1_READ_LENGTH);
             }
 
