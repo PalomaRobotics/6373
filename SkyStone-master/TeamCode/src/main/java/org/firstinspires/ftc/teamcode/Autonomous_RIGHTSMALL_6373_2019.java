@@ -50,7 +50,7 @@ public class Autonomous_RIGHTSMALL_6373_2019 extends LinearOpMode {
 
         long startTime = new Date().getTime();
 
-        while (new Date().getTime() - startTime < 100) //run motors for 1 second
+        while (new Date().getTime() - startTime < 130) //run motors for 1 second
         {
             telemetry.addData("Loop", 1);
             telemetry.update();
