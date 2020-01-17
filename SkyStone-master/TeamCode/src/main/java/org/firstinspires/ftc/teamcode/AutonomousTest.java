@@ -12,11 +12,7 @@ import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-import java.util.Date;
 
 @Autonomous(name = "AutonomousTest", group = "Autonomous")
 public class AutonomousTest extends LinearOpMode {
@@ -30,10 +26,6 @@ public class AutonomousTest extends LinearOpMode {
     double[] dirs = {0,0,0,0};
     int x;
     int turner;
-    boolean turnCorner1 = false;
-    boolean turnStop1 = false;
-    public double turnCorner1Range;
-    public double turnStop1Range;
     @Override
     public void runOpMode() throws InterruptedException {
         FL = hardwareMap.dcMotor.get("FL");
@@ -44,15 +36,16 @@ public class AutonomousTest extends LinearOpMode {
         Range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
         float hsvValues[] = {0F, 0F, 0F};
         final float values[] = hsvValues;
-        TURN = 2000;
-        waitForStart();
+        TURN = 540;
+        Range_Sensor.toRangeDir(10, DistanceUnit.INCH,1,0);
+     /*   waitForStart();
         dirs = HolonomicDrive.RoboMoveXY(1,0);
         FL.setPower(dirs[0]);
         FR.setPower(dirs[1]);
         BL.setPower(dirs[2]);
         BR.setPower(dirs[3]);
-        while (Range.getDistance(DistanceUnit.INCH)>8) {
-            telemetry.addData("Path", "Distance: 8 Inches", Range.getDistance(DistanceUnit.INCH) );
+        while (Range.getDistance(DistanceUnit.INCH)>10) {
+            telemetry.addData("Path", "Distance: 10 Inches", Range.getDistance(DistanceUnit.INCH) );
             telemetry.update();
         }
 
@@ -62,14 +55,16 @@ public class AutonomousTest extends LinearOpMode {
         FR.setPower(dirs[1]);
         BL.setPower(dirs[2]);
         BR.setPower(dirs[3]);
+
+      */
         turner = FL.getCurrentPosition();
-        EncoderClass.RunToEncoderDegreeAsync(FL, EncoderClass.MotorType.NeveRest60, -TURN, 0.60, false);
-        EncoderClass.RunToEncoderDegreeAsync(FR, EncoderClass.MotorType.NeveRest60, -TURN, 0.60, false);
-        EncoderClass.RunToEncoderDegreeAsync(BL, EncoderClass.MotorType.NeveRest60, -TURN, 0.60, false);
-        EncoderClass.RunToEncoderDegreeAsync(BR, EncoderClass.MotorType.NeveRest60, -TURN, 0.60, false);
-        while (turner-1900>FL.getCurrentPosition())
+        EncoderClass.RunToEncoderDegreeAsync(FL, EncoderClass.MotorType.NeveRest40, -TURN, 0.60, false);
+        EncoderClass.RunToEncoderDegreeAsync(FR, EncoderClass.MotorType.NeveRest40, -TURN, 0.60, false);
+        EncoderClass.RunToEncoderDegreeAsync(BL, EncoderClass.MotorType.NeveRest40, -TURN, 0.60, false);
+        EncoderClass.RunToEncoderDegreeAsync(BR, EncoderClass.MotorType.NeveRest40, -TURN, 0.60, false);
+        while (turner-539<FL.getCurrentPosition())
         {
-           /* dirs = HolonomicDrive.RoboMoveXY(0,0);
+           /* dirs = HolonoGmicDrive.RoboMoveXY(0,0);
             FL.setPower(dirs[0]);
             FR.setPower(dirs[1]);
             BL.setPower(dirs[2]);
@@ -91,7 +86,8 @@ public class AutonomousTest extends LinearOpMode {
         FR.setPower(dirs[1]);
         BL.setPower(dirs[2]);
         BR.setPower(dirs[3]);
-      /*  dirs = HolonomicDrive.RoboRotate(1);
+        /*
+       dirs = HolonomicDrive.RoboRotate(1);
         FL.setPower(.5*(dirs[0]));
         FR.setPower(.5*(dirs[1]));
         BL.setPower(.5*(dirs[2]));
@@ -113,7 +109,7 @@ public class AutonomousTest extends LinearOpMode {
             }
         }
 
-       */
+
       /*dirs = HolonomicDrive.RoboMoveXY(0,-1);
         FL.setPower(dirs[0]);
         FR.setPower(dirs[1]);
