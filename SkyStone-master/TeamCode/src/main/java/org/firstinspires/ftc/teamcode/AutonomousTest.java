@@ -12,113 +12,63 @@ import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.internal.opmode.TelemetryImpl;
+
+import com.qualcomm.robotcore.hardware.GyroSensor;
 @Autonomous(name = "AutonomousTest", group = "Autonomous")
 public class AutonomousTest extends LinearOpMode {
     int TURN;
-    DcMotor FL;
-    DcMotor FR;
-    DcMotor BL;
-    DcMotor BR;
+    public ModernRoboticsI2cGyro Gyro;
+    public static DcMotor FL;
+    public static DcMotor FR;
+    public static DcMotor BL;
+    public static DcMotor BR;
     public ColorSensor Color;
-    public ModernRoboticsI2cRangeSensor Range = null;
-    double[] dirs = {0,0,0,0};
+    public static ModernRoboticsI2cRangeSensor Range = null;
+    public I2cDevice RANGE1 = hardwareMap.i2cDevice.get("rangeSensor");
+    public double[] dirs = {0, 0, 0, 0};
     int x;
     int turner;
+    public Telemetry telemetry = new TelemetryImpl(this);
+
     @Override
     public void runOpMode() throws InterruptedException {
         FL = hardwareMap.dcMotor.get("FL");
         BL = hardwareMap.dcMotor.get("BL");
         FR = hardwareMap.dcMotor.get("FR");
         BR = hardwareMap.dcMotor.get("BR");
+        Gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
+        GyroClass gyroObject = new GyroClass(Gyro,FL,FR,BL,BR,0.25,telemetry);
         Color = hardwareMap.colorSensor.get("color");
-        Range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
-        float hsvValues[] = {0F, 0F, 0F};
-        final float values[] = hsvValues;
-        TURN = 540;
-        Range_Sensor.toRangeDir(10, DistanceUnit.INCH,1,0);
-     /*   waitForStart();
-        dirs = HolonomicDrive.RoboMoveXY(1,0);
-        FL.setPower(dirs[0]);
-        FR.setPower(dirs[1]);
-        BL.setPower(dirs[2]);
-        BR.setPower(dirs[3]);
-        while (Range.getDistance(DistanceUnit.INCH)>10) {
-            telemetry.addData("Path", "Distance: 10 Inches", Range.getDistance(DistanceUnit.INCH) );
-            telemetry.update();
-        }
+        //Range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
+
+      //  float hsvValues[] = {0F, 0F, 0F};
+     //   final float values[] = hsvValues;
+
+        Range_Sensor range_object = new Range_Sensor(telemetry, RANGE1);
+
+        waitForStart();
 
 
-        dirs = HolonomicDrive.RoboMoveXY(0,0);
-        FL.setPower(dirs[0]);
-        FR.setPower(dirs[1]);
-        BL.setPower(dirs[2]);
-        BR.setPower(dirs[3]);
+        range_object.toRangeDir(10, DistanceUnit.INCH, 1, 0); //drive sideways and stop
 
-      */
-        turner = FL.getCurrentPosition();
-        EncoderClass.RunToEncoderDegreeAsync(FL, EncoderClass.MotorType.NeveRest40, -TURN, 0.60, false);
-        EncoderClass.RunToEncoderDegreeAsync(FR, EncoderClass.MotorType.NeveRest40, -TURN, 0.60, false);
-        EncoderClass.RunToEncoderDegreeAsync(BL, EncoderClass.MotorType.NeveRest40, -TURN, 0.60, false);
-        EncoderClass.RunToEncoderDegreeAsync(BR, EncoderClass.MotorType.NeveRest40, -TURN, 0.60, false);
-        while (turner-539<FL.getCurrentPosition())
-        {
-           /* dirs = HolonoGmicDrive.RoboMoveXY(0,0);
-            FL.setPower(dirs[0]);
-            FR.setPower(dirs[1]);
-            BL.setPower(dirs[2]);
-            BR.setPower(dirs[3]);
-            */
-        }
-        dirs = HolonomicDrive.RoboMoveXY(-1,0);
-        FL.setPower(dirs[0]);
-        FR.setPower(dirs[1]);
-        BL.setPower(dirs[2]);
-        BR.setPower(dirs[3]);
-        while (Range.getDistance(DistanceUnit.INCH)<64)
-        {
-            telemetry.addData("Path", "Distance: 64 Inches", Range.getDistance(DistanceUnit.INCH) );
-            telemetry.update();
-        }
-        dirs = HolonomicDrive.RoboMoveXY(0,0);
-        FL.setPower(dirs[0]);
-        FR.setPower(dirs[1]);
-        BL.setPower(dirs[2]);
-        BR.setPower(dirs[3]);
-        /*
-       dirs = HolonomicDrive.RoboRotate(1);
-        FL.setPower(.5*(dirs[0]));
-        FR.setPower(.5*(dirs[1]));
-        BL.setPower(.5*(dirs[2]));
-        BR.setPower(.5*(dirs[3]));
-        while (turnCorner1 == false || turnStop1 == false)
-        {
-            turnCorner1Range = Range.getDistance(DistanceUnit.MM);
-            if (Range.getDistance(DistanceUnit.MM)<turnCorner1Range)
-            {
-                turnCorner1 = true;
-
-            }
-            if (turnCorner1 == true) {
-                turnStop1Range = Range.getDistance(DistanceUnit.MM);
-                if (Range.getDistance(DistanceUnit.MM) > turnStop1Range) {
-                    turnStop1 = true;
-                    dirs = HolonomicDrive.RoboMoveXY(0, 0);
-                }
-            }
-        }
+        gyroObject.Turn(-90);
 
 
-      /*dirs = HolonomicDrive.RoboMoveXY(0,-1);
-        FL.setPower(dirs[0]);
-        FR.setPower(dirs[1]);
-        BL.setPower(dirs[2]);
-        BR.setPower(dirs[3]);
-        */
+        //FL.setPower(-0.40); //turn right
+        //FR.setPower(0.40);
+        //BL.setPower(-0.40);
+        //BR.setPower(0.40);
+
+        GyroClass.sleep(1000);
+
+        range_object.toRangeDir(20, DistanceUnit.INCH, 1, 0);
+
+
 
     }
-
-
 }
 

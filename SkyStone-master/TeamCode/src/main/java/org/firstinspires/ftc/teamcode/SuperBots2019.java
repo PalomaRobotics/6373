@@ -71,7 +71,7 @@ public class SuperBots2019 extends OpMode {
         double[] rotToAdd = HolonomicDrive.RoboRotate(inRotation);
 
         for (int i = 0; i < rotToAdd.length; i++) {
-            dirs[i] = (dirs[i] + rotToAdd[i]) / 2;
+            dirs[i] = (dirs[i]*.5 + rotToAdd[i]*2);
         }
         double highestvalue = 0;
         int highestindex = 0;
@@ -84,7 +84,6 @@ public class SuperBots2019 extends OpMode {
         for (int i = 0; i < 4; i++) {
             if (Math.abs(dirs[i]) > highestvalue) {
                 highestvalue = Math.abs(dirs[i]);
-                highestindex = i;
             }
         }
         //make highest value 1 and change others accordingly
@@ -103,7 +102,7 @@ public class SuperBots2019 extends OpMode {
 
         if (((gamepad2.right_trigger > 0.4)&&countPinion<5)&& g2RT == 0) //if you push the right stick down it will lower the lift....
         {
-            EncoderClass.RunToEncoderDegreeAsync(pinion, EncoderClass.MotorType.NeveRest60, 60, 0.60, false);
+            EncoderClass.RunToEncoderDegreeAsync(pinion, EncoderClass.MotorType.NeveRest60, 60, 0.65, false);
             countPinion++;
             g2RT = 1;
         }
@@ -113,7 +112,7 @@ public class SuperBots2019 extends OpMode {
         }
         if (((gamepad2.left_trigger > 0.4)&&countPinion>0)&& g2LT == 0) //if you push the right stick down it will lower the lift....
         {
-            EncoderClass.RunToEncoderDegreeAsync(pinion, EncoderClass.MotorType.NeveRest60, -60, 0.60, false);
+            EncoderClass.RunToEncoderDegreeAsync(pinion, EncoderClass.MotorType.NeveRest60, -60, 0.65, false);
             countPinion--;
             g2LT = 1;
         }
@@ -123,7 +122,7 @@ public class SuperBots2019 extends OpMode {
         }
         if (((gamepad2.right_bumper)&&countSlide<7)&& g2RB == 0) //if you push the right stick down it will lower the lift....
         {
-            EncoderClass.RunToEncoderDegreeAsync(drawerSlide, EncoderClass.MotorType.NeveRest40, 60, 0.50, false);
+            EncoderClass.RunToEncoderDegreeAsync(drawerSlide, EncoderClass.MotorType.NeveRest40, 60, 0.65, false);
             countSlide++;
             g2RB = 1;
         }
@@ -133,7 +132,7 @@ public class SuperBots2019 extends OpMode {
         }
         if (((gamepad2.left_bumper&&countSlide>0))&& g2LB == 0) //if you push the right stick down it will lower the lift....
         {
-            EncoderClass.RunToEncoderDegreeAsync(drawerSlide, EncoderClass.MotorType.NeveRest40, -60, 0.50, false);
+            EncoderClass.RunToEncoderDegreeAsync(drawerSlide, EncoderClass.MotorType.NeveRest40, -60, 0.65, false);
             countSlide --;
             g2LB = 1;
         }
@@ -151,10 +150,10 @@ public class SuperBots2019 extends OpMode {
         }
 
         if (gamepad1.a) {
-            base.setPower(0.09);
+            base.setPower(0.06);
         }
         if (gamepad1.b) {
-            base.setPower(-.09);
+            base.setPower(-.06);
         }
         if (!(gamepad1.a) && !(gamepad1.b)) {
             base.setPower(0);
