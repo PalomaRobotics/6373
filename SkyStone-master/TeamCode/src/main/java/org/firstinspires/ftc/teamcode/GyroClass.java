@@ -153,14 +153,49 @@ public class GyroClass{
         telemetry.update();
     }
 
-    private void RunStraight()
-    {
-
-    }
 
     public void Turn(int newHeading)
     {
+        //0 is straight ahead. -1 is one degree to the LEFT. 1 = one degree to the RIGHT
+        ResetHeading();
 
+        if(newHeading < 0) //if turning to the LEFT...
+        {
+            while(GetHeading() > newHeading) //if too far RIGHT, rotate LEFT until you're back on course
+            {
+                lf.setPower(0.10); //turn left
+                rf.setPower(0.10);
+                lb.setPower(0.10);
+                rb.setPower(0.10);
+                telemetry.addData("TURNING", "TO LEFT");
+                telemetry.addData("heading", GetHeading());
+                //telemetry.addData("LFpwr", leftPwr);
+                //telemetry.addData("RFpwr", rightPwr);
+                telemetry.update();
+            }
+        }
+
+        while(GetHeading() < newHeading) //if too far LEFT, rotate RIGHT until you're back on course
+        {
+            lf.setPower(-0.10); //turn right
+            rf.setPower(-0.10);
+            lb.setPower(-0.10);
+            rb.setPower(-0.10);
+            telemetry.addData("TURNING", "TO RIGHT");
+            telemetry.addData("heading", GetHeading());
+            //telemetry.addData("LFpwr", leftPwr);
+            //telemetry.addData("RFpwr", rightPwr);
+            telemetry.update();
+        }
+
+        lf.setPower(0.0); //All Stop
+        rf.setPower(0.0);
+        lb.setPower(0.0);
+        rb.setPower(0.0);
+
+        telemetry.addData("Turn Complete!!", ":)");
+        telemetry.addData("heading", GetHeading());
+        telemetry.update();
     }
 
 
@@ -388,7 +423,7 @@ public class GyroClass{
         return -gyro.getIntegratedZValue();
     }
 
-    private final void sleep(long milliseconds) {
+    public static void sleep(long milliseconds) {
         try {
             Thread.sleep(milliseconds);
         } catch (InterruptedException e) {

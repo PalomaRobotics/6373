@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 
 
@@ -17,12 +18,13 @@ import java.util.Date;
 @Autonomous(name = "Autonomous_BLUE_6373_2019", group = "Autonomous")
 public class Autonomous_BLUE_6373_2019 extends LinearOpMode {
 
-
+    ColorSensor blueSensor;
     DcMotor FL;
     DcMotor FR;
     DcMotor BL;
     DcMotor BR;
-    I2cDevice rightDistance;
+    double[] dirs = {0,0,0,0};
+    //I2cDevice rightDistance;
     byte[] range1Cache;
     I2cAddr RANGE1ADDRESS = new I2cAddr(0x14); //Default I2C address for MR Range (7-bit)
     public static final int RANGE1_REG_START = 0x04; //Register to start reading
@@ -32,8 +34,9 @@ public class Autonomous_BLUE_6373_2019 extends LinearOpMode {
     //ModernRoboticsI2cGyro gyro;   //Don't forget to import the proper library: import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 
     //GyroClass gyroObject; //create a variable capable of holding an object based off the GyroClass class
-    int dist1 = 120;
-    int Time2 = 500;
+    int x = 1;
+    int dist1 = 90;
+    int dist2 = 100;
     int Time3 = 500;
     int Time4 = 1000;
     int Time5 = 400;
@@ -50,8 +53,8 @@ public class Autonomous_BLUE_6373_2019 extends LinearOpMode {
 
         FR = hardwareMap.dcMotor.get("FR");
         BR = hardwareMap.dcMotor.get("BR");
-        rightDistance = hardwareMap.i2cDevice.get("MR_RANGE");
-        //RANGE1 = hardwareMap.i2cDevice.get("range");
+        blueSensor = hardwareMap.colorSensor.get("color");
+        RANGE1 = hardwareMap.i2cDevice.get("MR_RANGE");
         RANGE1Reader = new I2cDeviceSynchImpl(RANGE1, RANGE1ADDRESS, false);
         RANGE1Reader.engage();
         //gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyroSens"); //THIS IS AN I2C DEVICE. Find a Gyro Sensor on the robot named gyroSens. gyroSens is the name that appears in the phones configuration
@@ -62,29 +65,62 @@ public class Autonomous_BLUE_6373_2019 extends LinearOpMode {
 
         waitForStart();
         //telemetry.addData("Time To Travel: ", "" + timer);
-
-
-        //telemetry.addData("Main Started", ":)");
-        //telemetry.update();
-
-        double[] dirs = HolonomicDrive.RoboMoveXY(1.0, 0);
-
-
-
-        while (range1Cache[0] > 0 && range1Cache[0] < dist1) //run motors for 1 second
+        blueSensor.enableLed(true);
+        dirs = HolonomicDrive.RoboMoveXY(0,-1);
+        blueSensor.enableLed(true);
+        while(blueSensor.blue()<30)
         {
-
-
             FL.setPower(dirs[0]);
             FR.setPower(dirs[1]);
             BL.setPower(dirs[2]);
             BR.setPower(dirs[3]);
-
-            range1Cache = RANGE1Reader.read(RANGE1_REG_START, RANGE1_READ_LENGTH);
         }
+        //telemetry.addData("Main Started", ":)");
+        //telemetry.update();
+      /*  dirs = HolonomicDrive.RoboMoveXY(-1, 0);
 
-        FL.setPower(0.0);
-        FR.setPower(0.0);
+
+           range1Cache = RANGE1Reader.read(RANGE1_REG_START, RANGE1_READ_LENGTH);
+
+            while(range1Cache[0] < dist1) {
+                FL.setPower(dirs[0]);
+                FR.setPower(dirs[1]);
+                BL.setPower(dirs[2]);
+                BR.setPower(dirs[3]);
+                range1Cache = RANGE1Reader.read(RANGE1_REG_START, RANGE1_READ_LENGTH);
+               // if (range1Cache[0]>dist1)
+                //{
+                 //   dirs = HolonomicDrive.RoboMoveXY(0, 0);
+                   // x = 0;
+                //}
+            }
+    dirs = HolonomicDrive.RoboMoveXY(0, -1);
+      */
+
+        range1Cache = RANGE1Reader.read(RANGE1_REG_START, RANGE1_READ_LENGTH);
+
+        while(range1Cache[0] < dist2) {
+            FL.setPower(dirs[0]);
+            FR.setPower(dirs[1]);
+            BL.setPower(dirs[2]);
+            BR.setPower(dirs[3]);
+            range1Cache = RANGE1Reader.read(RANGE1_REG_START, RANGE1_READ_LENGTH);
+            // if (range1Cache[0]>dist1)
+            //{
+            //   dirs = HolonomicDrive.RoboMoveXY(0, 0);
+            // x = 0;
+            //}
+        }
+            dirs = HolonomicDrive.RoboMoveXY(0,-1);
+        blueSensor.enableLed(true);
+        while(blueSensor.blue()<20)
+        {
+            FL.setPower(dirs[0]);
+            FR.setPower(dirs[1]);
+            BL.setPower(dirs[2]);
+            BR.setPower(dirs[3]);
+        }
+        //}
 /*
         long startTime = new Date().getTime();
         dirs = HolonomicDrive.RoboMoveXY(0, 1);
