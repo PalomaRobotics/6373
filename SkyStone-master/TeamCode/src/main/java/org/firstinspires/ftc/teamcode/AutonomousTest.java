@@ -28,7 +28,6 @@ public class AutonomousTest extends LinearOpMode {
     public static DcMotor BR;
     public ColorSensor Color;
     public static ModernRoboticsI2cRangeSensor Range = null;
-    public I2cDevice RANGE1 = hardwareMap.i2cDevice.get("rangeSensor");
     public double[] dirs = {0, 0, 0, 0};
     int x;
     int turner;
@@ -43,12 +42,9 @@ public class AutonomousTest extends LinearOpMode {
         Gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
         GyroClass gyroObject = new GyroClass(Gyro,FL,FR,BL,BR,0.25,telemetry);
         Color = hardwareMap.colorSensor.get("color");
-        //Range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
+        Range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
 
-      //  float hsvValues[] = {0F, 0F, 0F};
-     //   final float values[] = hsvValues;
-
-        Range_Sensor range_object = new Range_Sensor(telemetry, RANGE1);
+        Range_Sensor range_object = new Range_Sensor(telemetry, Range);
 
         waitForStart();
 
@@ -58,15 +54,20 @@ public class AutonomousTest extends LinearOpMode {
         gyroObject.Turn(-90);
 
 
-        //FL.setPower(-0.40); //turn right
-        //FR.setPower(0.40);
-        //BL.setPower(-0.40);
-        //BR.setPower(0.40);
+        FL.setPower(-0.40); //drive blind for 1 second
+        FR.setPower(0.40);
+        BL.setPower(-0.40);
+        BR.setPower(0.40);
 
         GyroClass.sleep(1000);
 
-        range_object.toRangeDir(20, DistanceUnit.INCH, 1, 0);
+        FL.setPower(0.0); //stop
+        FR.setPower(0.0);
+        BL.setPower(0.0);
+        BR.setPower(0.0);
 
+        range_object.toRangeDir(10, DistanceUnit.INCH, 1, 0);
+        //range_object.PollSensor();
 
 
     }
