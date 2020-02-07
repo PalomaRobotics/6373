@@ -55,8 +55,8 @@ public class AutonomousTest extends LinearOpMode {
 
 
         FL.setPower(-0.40); //drive blind for 1 second
-        FR.setPower(0.40);
-        BL.setPower(-0.40);
+        FR.setPower(-0.40);
+        BL.setPower(0.40);
         BR.setPower(0.40);
 
         GyroClass.sleep(1000);
