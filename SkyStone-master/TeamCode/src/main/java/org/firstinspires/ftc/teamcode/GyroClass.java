@@ -2,8 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
-
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
 public class GyroClass{
@@ -154,14 +157,14 @@ public class GyroClass{
     }
 
 
-    public void Turn(int newHeading)
+    public void Turn(int newHeading, LinearOpMode opModeInstance)
     {
         //0 is straight ahead. -1 is one degree to the LEFT. 1 = one degree to the RIGHT
         ResetHeading();
 
         if(newHeading < 0) //if turning to the LEFT...
         {
-            while(GetHeading() > newHeading) //if too far RIGHT, rotate LEFT until you're back on course
+            while(!(!(GetHeading() > newHeading))&&!opModeInstance.isStopRequested() /*&& !isStopRequested()*/) //if too far RIGHT, rotate LEFT until you're back on course
             {
                 lf.setPower(0.10); //turn left
                 rf.setPower(0.10);

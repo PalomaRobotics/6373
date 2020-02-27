@@ -152,7 +152,7 @@ public class WilsonTeleOp extends OpMode
 
 
 		if(!doneonce) {
-			gyroObject.Turn(270);
+			//gyroObject.Turn(270);
 			doneonce = true;
 		}
 		gyroObject.StraightLineUpdate(); //You can use the GyroClass to drive the robot in a straight line using the gyro to maintain your heading. Calling update in the loop keeps updating the robots position. You can stop calling update and stop the motors at anytime to go somewhere else

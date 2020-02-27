@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import java.util.Base64;
 
 @TeleOp(name = "Superbots2019Teleop", group = "TeleOp")
 public class SuperBots2019 extends OpMode {

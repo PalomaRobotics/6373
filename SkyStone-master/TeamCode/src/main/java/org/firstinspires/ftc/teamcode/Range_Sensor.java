@@ -10,14 +10,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Range_Sensor
 {
-    //public static ModernRoboticsI2cRangeSensor Range = AutonomousTest.Range;
+   // public static ModernRoboticsI2cRangeSensor Range = AutonomousTest.Range;
 
     ModernRoboticsI2cRangeSensor Range;
-
-    static DcMotor FL = AutonomousTest.FL;
-    static DcMotor FR = AutonomousTest.FR;
-    static DcMotor BL = AutonomousTest.BL;
-    static DcMotor BR = AutonomousTest.BR;
 
     Telemetry telemetry;
 
@@ -29,13 +24,13 @@ public class Range_Sensor
         this.Range = rangeSensorObject;
     }
 
-    public void toRangeDir (int range,DistanceUnit unit, int x, int y)
+    public void toRangeDir (int range,DistanceUnit unit, int x, int y,DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor)
     {
         dirs = HolonomicDrive.RoboMoveXY(x,-y);
-        FL.setPower(dirs[0]);
-        FR.setPower(dirs[1]);
-        BL.setPower(dirs[2]);
-        BR.setPower(dirs[3]);
+        frontLeftMotor.setPower(dirs[0]);
+        frontRightMotor.setPower(dirs[1]);
+        backLeftMotor.setPower(dirs[2]);
+        backRightMotor.setPower(dirs[3]);
         while (Range.getDistance(unit)>range)
         {
             telemetry.addData("unit>", Range.getDistance(unit));
@@ -44,10 +39,10 @@ public class Range_Sensor
 
         }
         dirs = HolonomicDrive.RoboMoveXY(0,0);
-        FL.setPower(dirs[0]);
-        FR.setPower(dirs[1]);
-        BL.setPower(dirs[2]);
-        BR.setPower(dirs[3]);
+        frontLeftMotor.setPower(dirs[0]);
+        frontRightMotor.setPower(dirs[1]);
+        backLeftMotor.setPower(dirs[2]);
+        backRightMotor.setPower(dirs[3]);
     }
 
     public void PollSensor()
@@ -59,24 +54,24 @@ public class Range_Sensor
         }
     }
 
-/*
-    public void fromRangeDir (int range,DistanceUnit unit, int x, int y)
+public void fromRangeDir (int range,DistanceUnit unit, int x, int y,DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor)
     {
         dirs = HolonomicDrive.RoboMoveXY(x,-y);
-        FL.setPower(dirs[0]);
-        FR.setPower(dirs[1]);
-        BL.setPower(dirs[2]);
-        BR.setPower(dirs[3]);
+        frontLeftMotor.setPower(dirs[0]);
+        frontRightMotor.setPower(dirs[1]);
+        backLeftMotor.setPower(dirs[2]);
+        backRightMotor.setPower(dirs[3]);
         while (Range.getDistance(unit)<range)
         {
+            telemetry.addData("unit<", Range.getDistance(unit));
+            telemetry.addData("range", range);
+            telemetry.update();
 
         }
         dirs = HolonomicDrive.RoboMoveXY(0,0);
-        FL.setPower(dirs[0]);
-        FR.setPower(dirs[1]);
-        BL.setPower(dirs[2]);
-        BR.setPower(dirs[3]);
+        frontLeftMotor.setPower(dirs[0]);
+        frontRightMotor.setPower(dirs[1]);
+        backLeftMotor.setPower(dirs[2]);
+        backRightMotor.setPower(dirs[3]);
     }
-
- */
 }
