@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Wilson;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -16,6 +16,9 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+
+import org.firstinspires.ftc.teamcode.EncoderClass;
+import org.firstinspires.ftc.teamcode.GyroClass;
 
 //used by i2c sensors (Modern Robotics Range Ultrasonic Sensor)
 
