@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public abstract class EncoderClass {
 
-    enum MotorType
+    public enum MotorType
     {
         NeveRest40,
         NeveRest60

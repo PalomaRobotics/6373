@@ -16,8 +16,8 @@ public class main
 
     public static void main(String[] args)
     {
-        EncoderCallback encoderWatch1 = new EncoderCallback(); //Create an object which run when the task completes
-        EncoderCallback encoderWatch2 = new EncoderCallback();
+        FinishedRunningCallback encoderWatch1 = new FinishedRunningCallback(); //Create an object which run when the task completes
+        FinishedRunningCallback encoderWatch2 = new FinishedRunningCallback();
 
         new Thread(new ThreadableClass(encoderWatch1)).start(); //create a new thread and call it run() method. Pass it the callback we created above so it knows what to run when the task completes
         new Thread(new ThreadableClass(encoderWatch2)).start(); //create a new thread and call it run() method. Pass it the callback we created above so it knows what to run when the task completes
