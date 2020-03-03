@@ -3,7 +3,7 @@ import org.firstinspires.ftc.teamcode.MultiThread_Examples.CallbackInterface; //
 
 public class EncoderCallback implements CallbackInterface
 {
-    private boolean complete = false;
+    public boolean complete = false;
     
     public void onComplete()
     {
