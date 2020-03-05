@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.hardware.motors.NeveRest60Gearmotor;
 public class Robot {
-    public static void MecanumMove (double CircumferenceMM, int x, int y, double speed, int CmDistance, DcMotor FrontLeft, DcMotor FrontRight, DcMotor BackLeft, DcMotor BackRight)
+    public static void MecanumMoveAuto (double WheelDiameterMM, int x, int y, double speed, int CmDistance, DcMotor FrontLeft, DcMotor FrontRight, DcMotor BackLeft, DcMotor BackRight)
     {
         
     }
